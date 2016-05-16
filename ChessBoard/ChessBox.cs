@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Chess.Figures;
+using Chess.Exeptions;
 
 
-namespace Chess.Figures
+namespace Chess
 {
     public class ChessBox
     {
@@ -14,6 +15,7 @@ namespace Chess.Figures
         private int Ycoordinate;
         private bool isWhite;
         private Figure figure;
+        private Figure oldFigure;
         public ChessBox(char X,int Y,bool iswhite)
         {
             this.Xcoord = X;
@@ -21,6 +23,7 @@ namespace Chess.Figures
             this.isWhite = iswhite;
           
         }
+        
         public ChessBox(char X, int Y, bool iswhite,Figure FIgure)
         {
             this.Xcoord = X;
@@ -34,11 +37,20 @@ namespace Chess.Figures
             {
                 if(this.figure==null)
                 {
-                    throw new ArgumentException("There is no figure on this box!");
+                    throw new ChessBoxExeption("There is no figure on this box!");
                 }
                 return this.figure;
             }
             set { this.figure = value; }
+        }
+
+        public bool IsWhite
+        {
+            get
+            {
+                return isWhite;
+            }
+            private set { this.isWhite = value; }
         }
         public char Xcoord
         {
@@ -47,8 +59,8 @@ namespace Chess.Figures
             {
                 if((value<'A')||(value>'H'))
                 {
-                    
-                    throw new ArgumentException("Invalid ChessBox coordinates");
+
+                    throw new ChessBoxExeption("Invalid ChessBox coordinates");
                 }
                 this.Xcoordinate = value;
             }
@@ -61,8 +73,7 @@ namespace Chess.Figures
             {
                 if ((value < 1) || (value > 8))
                 {
-                    
-                    throw new ArgumentException("Invalid ChessBox coordinates {0}");
+                    throw new ChessBoxExeption("Invalid ChessBox coordinates");
                 }
                 this.Ycoordinate = value;
             }
@@ -70,8 +81,10 @@ namespace Chess.Figures
         }
         public void deleteFigure()
         {
+            this.oldFigure=this.Figure;
             this.Figure = null;
         }
+      
         public bool isFigureOn()
         {
             if(this.figure==null)

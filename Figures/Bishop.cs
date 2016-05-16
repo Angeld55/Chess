@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Chess.Exeptions;
 
 namespace Chess.Figures
 {
@@ -16,8 +17,11 @@ namespace Chess.Figures
         {
             if (!this.FigureChangePosition(x,y))
             {
-                throw new ArgumentException("You should move to a diffrent positon");
+             
+                throw new InvalidFigureMovementExeption("You should move the bishop to a diffrent positon");
             }
+            char currentX = Xpositon;
+            int currentY = Ypositon;
             int xDiff = this.Xpositon - x;
             int yDiff = this.Ypositon - y;
             if (xDiff<0)
@@ -26,7 +30,7 @@ namespace Chess.Figures
             }
             if (yDiff < 0)
             {
-                yDiff = yDiff * -1;
+                yDiff = yDiff * -1; 
             }    
             if(xDiff==yDiff)
             {
@@ -35,8 +39,10 @@ namespace Chess.Figures
             }
             else
             {
-                throw new ArgumentException("Invalid bishop coordinates");
+                throw new InvalidFigureMovementExeption("Invalid bishop coordinates");
             }
+            SaveLastPosition(currentX, currentY);
+            
         }
     }
 }

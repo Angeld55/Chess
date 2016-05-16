@@ -12,7 +12,8 @@ namespace Chess.Figures
         private int Yposition;
         public bool isWhite;
         protected bool inPlay;
-        
+        private char LastXposition;
+        private int LastYposition;
         
         public Figure(char x, int y,bool isWhite)
         {
@@ -50,6 +51,15 @@ namespace Chess.Figures
                 this.Yposition = value;
             }
         }
+        public void DestroyFigure()
+        {
+            inPlay = false;
+            LastXposition = Xposition;
+            LastYposition = Ypositon;
+            Xposition = '\0';
+            Yposition = 0;
+
+        }
         public bool FigureChangePosition(int x,int y)
         {
             if((x == this.Xpositon)&&(y==this.Ypositon))
@@ -78,7 +88,23 @@ namespace Chess.Figures
         public override string ToString()
         {
             string x = this.GetType().ToString();
+            if(this.isWhite)
+            {
+                
+               return Convert.ToChar((x[14]+32)).ToString() + " ";
+               
+            }
             return x[14].ToString()+" ";
+        }
+        protected virtual void SaveLastPosition(char x,int y)
+        {
+            this.LastXposition=x;
+            this.LastYposition=y;
+        }
+        public virtual void BackToLastPosition()
+        {
+            this.Xpositon=LastXposition;
+            this.Ypositon=LastYposition;
         }
 
     }

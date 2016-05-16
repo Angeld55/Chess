@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Chess.Exeptions;
 namespace Chess.Figures
 {
     public class Queen : Figure
@@ -16,9 +16,10 @@ namespace Chess.Figures
         {
             if (!this.FigureChangePosition(x, y))
             {
-                throw new ArgumentException("You should move to a diffrent positon");
+                throw new InvalidFigureMovementExeption("You should move the queen to a diffrent positon");
             }
-
+            char currentX = this.Xpositon;
+            int currentY = this.Ypositon;
             if (x == this.Xpositon)
             {
                 this.Ypositon = y;
@@ -47,9 +48,10 @@ namespace Chess.Figures
                 }
                 else
                 {
-                   throw new ArgumentException("Invalid queen coordinates");
+                    throw new InvalidFigureMovementExeption("Invalid queen coordinates");
                 }
             }
+            SaveLastPosition(currentX, currentY);
 
         }
     }
